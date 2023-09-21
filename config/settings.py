@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-a5#b@xn+ro4r-l6*l6uchd$g78r+3+4s)^#yv+6tcsrw6fxx@^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -38,8 +38,13 @@ INSTALLED_APPS = [
 
     'django.contrib.humanize',
 
-
     'application',
+]
+
+# My_backend
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',  # Boshqa backendlar
+    'application.backends.AdminProfileBackend',  # O'zim yaratgan Backends
 ]
 
 MIDDLEWARE = [
@@ -57,7 +62,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -72,20 +77,22 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
+
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': "user_db",
+        'NAME': "application_db",
         'USER': "user_admin",
         'PASSWORD': 'tthi9a1#',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
 }
-
 
 # DATABASES = {
 #     'default': {
@@ -128,7 +135,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR.joinpath('static')]
-
 
 MEDIA_ROOT = BASE_DIR.joinpath("media")
 MEDIA_URL = '/media/'
