@@ -8,7 +8,7 @@ class AdminProfileBackend(ModelBackend):
     def authenticate(self, request, username=None, password=None, **kwargs):
         try:
             user = User.objects.get(username=username)
-        except User.DoesNotExsit:
+        except User.DoesNotExist:
             return None
 
         if user.is_active and self._is_admin_profile(user):
@@ -17,5 +17,6 @@ class AdminProfileBackend(ModelBackend):
 
         return None
 
-    def _is_admin_profile(self, user):
+    @staticmethod
+    def _is_admin_profile(user):
         return hasattr(user, 'Hemis_admin') or hasattr(user, 'Moodle_admin') or hasattr(user, 'KeroControl_admin')
