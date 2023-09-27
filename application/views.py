@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Hemis_admin, Moodle_admin, KeroControl_admin, Username
-from .forms import SignUpForm, LoginForm, form_validation_error, ArizaForm
+from .models import Hemis_admin, Moodle_admin, KeroControl_admin, Username, Profile
+from .forms import SignUpForm, LoginForm, form_validation_error, ArizaForm, ProfileForm
 from django.contrib.auth.models import User
+from django.views import View
 
 
 def index(request):
@@ -43,7 +44,7 @@ def login_view(request):
 
             if user is not None:
                 login(request, user)
-                return redirect('dashboard')
+                return redirect('index')
             else:
                 msg = 'Login yoki Parol xato!'
         else:
@@ -58,39 +59,38 @@ def logout_view(request):
     logout(request)
     return redirect('login')
 
+# @login_required
+# def dashboard(request):
+#     user = request.user
+#
+#     # Foydalanuvchi admin profili bo'lishini tekshiramiz
+#     if not (hasattr(user, 'Hemis_admin') or hasattr(user, 'Moodle_admin') or hasattr(user, 'KeroControl_admin')):
+#         return redirect('admin_dashboard')  # Foydalanuvchi admin profili emas, login sahifasiga yo'naltiriladi
+#
+#     return render(request, 'user-dashboard/user_dashboard.html')
 
-@login_required
-def dashboard(request):
-    user = request.user
 
-    # Foydalanuvchi admin profili bo'lishini tekshiramiz
-    if not (hasattr(user, 'Hemis_admin') or hasattr(user, 'Moodle_admin') or hasattr(user, 'KeroControl_admin')):
-        return redirect('admin_dashboard')  # Foydalanuvchi admin profili emas, login sahifasiga yo'naltiriladi
-
-    return render(request, 'user-dashboard/user_dashboard.html')
-
-
-@login_required
-def admin_dashboard(request):
-    user = request.user
-
-    # Hemis_admin profili bo'lishini tekshiramiz
-    if hasattr(user, 'Hemis_admin'):
-        admin_profile = user.Hemis_admin
-
-    elif hasattr(user, 'Moodle_admin'):
-        admin_profile = user.Moodle_admin
-
-    elif hasattr(user, 'KeroControl_admin'):
-        admin_profile = user.KeroControl_admin
-
-    else:
-        return redirect('dashboard')
-
-    ctx = {
-        'admin_profile': admin_profile,
-    }
-    return render(request, 'admin-dashboard/admin_dashboard.html', {'ctx': ctx})
+# @login_required
+# def admin_dashboard(request):
+#     user = request.user
+#
+#     # Hemis_admin profili bo'lishini tekshiramiz
+#     if hasattr(user, 'Hemis_admin'):
+#         admin_profile = user.Hemis_admin
+#
+#     elif hasattr(user, 'Moodle_admin'):
+#         admin_profile = user.Moodle_admin
+#
+#     elif hasattr(user, 'KeroControl_admin'):
+#         admin_profile = user.KeroControl_admin
+#
+#     else:
+#         return redirect('profile')
+#
+#     ctx = {
+#         'admin_profile': admin_profile,
+#     }
+#     return render(request, 'admin-dashboard/admin_dashboard.html', ctx)
 
 # @login_required
 # def ariza_yuborish(request):

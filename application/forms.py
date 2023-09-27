@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from .models import Profile
 
 
 class LoginForm(forms.Form):
@@ -32,3 +33,14 @@ class ArizaForm(forms.Form):
     foydalanuvchi_id = forms.IntegerField(widget=forms.HiddenInput()),
     admin_turi = forms.ChoiceField(choices=[('hemis', 'Hemis_admin'), ('moodle', 'Moodle_admin'), ('kerocontrol', 'KeroControl_admin')]),
     malumotlar = forms.CharField(widget=forms.Textarea),
+
+
+class ProfileForm(forms.ModelForm):
+    first_name = forms.CharField(max_length=255)
+    last_name = forms.CharField(max_length=255)
+    email = forms.EmailField()
+
+    class Meta:
+        model = Profile
+        fields = '__all__'
+        exclude = ['user']

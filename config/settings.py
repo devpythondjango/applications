@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
 
     'application',
+    'users',
 ]
 
 # My_backend
